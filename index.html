@@ -1,42 +1,155 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <title>javascript flops</title>
-  </head>
 
-  <body>
-    <h1>javascript flops</h1>
-<p>A port of a simple old C port of a simple old FORTRAN program that benchmarks how fast a CPU can do math (FLOating Point Operations per Second).
-Modified by Albermonte to select the perfect number of threads to use without affecting the UX</p>
+<head>
+  <title>HMTSIU</title>
+  <link href="https://cdn.jsdelivr.net/npm/@nimiq/style@v0.6.0/nimiq-style.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet">
+</head>
 
-<div id="flops-out" style="display: none;"></div>
-<form>
-  <textarea name="results" rows="20" cols="80"></textarea><br />
-</form>
+<body>
 
-<script src="flops.js"></script>
-<script>
-function printf(opt_vararg) {
-  if (!opt_vararg) {
-    return;
-  }
-  var outl = document.getElementsByTagName('textarea');
-  if (outl && outl.length) {
-    var out = outl.item(0);
-    if (out) {
-      out.innerHTML = out.innerHTML + opt_vararg;
+  <h1 class="nq-h1">How Many Threads Should I Use</h1>
+  <p class="nq-text">The next version of ShortNIM will have a huge update maximizing the UX, that's the reason why I
+    (Albermonte) need to collect some data before.</p>
+  <div id="info">
+    <div class="nq-card card">
+      <div class="nq-card-header">
+        <h2 class="nq-h2">This simple app is going to:</h2>
+      </div>
+      <div class="nq-card-body">
+        <p class="nq-text">
+          1. Run a quick benchmark* to test your CPU. <br>
+          2. Collect data about your CPU (threads and model). <br>
+          3. Save that data and only that data for further analysis, it won't log any IP, etc.
+        </p>
+        <p class="nq-label">All the collected data is anonymous</p>
+      </div>
+      <div class="nq-card-footer nq-text-s">
+        <p>*A port of a simple old C port of a simple old FORTRAN program that benchmarks how fast a CPU can do math
+          (FLOating Point Operations per Second).
+        </p>
+        <p>Modified by Albermonte to select the perfect number of threads to use without affecting the UX</p>
+      </div>
+    </div>
+
+    <button class="nq-button light-blue" onclick="start()">Go for it!</button>
+  </div>
+
+  <div id="flops-out" style="display: none;"></div>
+  <h3 class="nq-h3" id="credits" style="display: none;">FLOPS Javascript Program (Double Precision), V2.0 18 Dec 1992
+  </h3>
+  <form action="" id="form" style="display: none;" class="form">
+    <div class="first-block">
+      <div class="margin">
+        <p class="nq-text">Score: </p>
+        <input class="nq-input" id="t34" readonly="readonly">
+      </div>
+      <div class="margin">
+        <p class="nq-text">Length: </p>
+        <input class="nq-input" id="length" readonly="readonly">
+      </div>
+      <div class="margin">
+        <p class="nq-text">Magic Number: </p>
+        <input class="nq-input" id="rounded" readonly="readonly">
+      </div>
+      <div class="margin">
+        <p class="nq-text">Detected Threads: </p>
+        <input class="nq-input" id="threads" readonly="readonly">
+      </div>
+      <div class="margin">
+        <p class="nq-text">Suggestion: </p>
+        <input class="nq-input" id="suggestion" readonly="readonly">
+      </div>
+      <div class="margin">
+        <p class="nq-text">Final Suggestion: </p>
+        <input class="nq-input" id="suggestion2" readonly="readonly">
+      </div>
+    </div>
+    <div>
+      <p class="nq-text">Is the Detected Threads number the same as your CPU threads?</p>
+      <div id="yes-no">
+        <button class="nq-button-s green" onclick="yes()">Yes</button>
+        <button class="nq-button-s red" onclick="no()">No</button>
+      </div>
+      <div id="correct_threads" style="display: none;" class="correct-threads">
+        <input id="correct_threads_number" class="nq-input input-threads" placeholder="Please input the correct threads number">
+        <button class="nq-button-s light-blue" onclick="next()">Next</button>
+      </div>
+    </div>
+  </form>
+
+  <script src="flops.js"></script>
+  <script>
+    start = () => {
+      flops_main();
+      document.getElementById("info").style.display = "none"
+      document.getElementById("credits").style.display = "block"
+      document.getElementById("form").style.display = "flex"
+
     }
-  }
-  var out = document.getElementById('flops-out');
-  if (out) {
-    var newe = document.createElement('div');
-    newe.style.fontFamily = 'monospace';
-    newe.appendChild(document.createTextNode(opt_vararg));
-    out.appendChild(newe);
-  }
-};
-flops_main();
-</script>
 
-  </body>
+    yes = () => {
+
+    }
+
+    no = () => {
+      document.getElementById("correct_threads").style.display = "flex"
+      document.getElementById("yes-no").style.display = "none"
+    }
+
+    next = () => {
+      console.log(document.getElementById("threads").value)
+      console.log(document.getElementById("correct_threads_number").value)
+    }
+
+  </script>
+  <style>
+    html {
+      text-rendering: optimizeLegibility;
+      text-align: center;
+      align-items: center;
+    }
+
+    .card {
+      text-align: justify;
+    }
+
+    .nq-card {
+      margin: 5rem auto;
+    }
+
+    .form {
+      flex-direction: column;
+    }
+
+    .first-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: row wrap;
+      align-content: center;
+    }
+
+    .nq-input {
+      text-align: center;
+    }
+
+    .correct-threads{
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .input-threads {
+      width: 80%;
+      max-width: 572px;
+      margin-bottom: 15px;
+    }
+
+    .margin {
+      margin: 10px;
+    }
+  </style>
+</body>
+
 </html>

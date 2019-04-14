@@ -191,8 +191,6 @@ function flops_main() {
    var loops, NLimit;
    var i, m, n;
 
-   printf("   FLOPS Javascript Program (Double Precision), V2.0 18 Dec 1992\n\n");
-
 			/****************************/
    loops = 15625;        /* Initial number of loops. */
 			/*     DO NOT CHANGE!       */
@@ -604,11 +602,15 @@ function flops_main() {
    let maybe = threads - (Math.ceil(threads / rounded)) || 1 // Again, it's hard
    let final = Math.min(threads - 2, maybe) // Let always 2 free threads at least
    
-   printf("   Length: "+  num)
-   printf("\n   Round: "+ rounded)
-   printf("\n   Use: "+ final  +" threads")
    
 /*------ End Albermonte algo, hope you slept well mimosa <3 (Apr 2019) ------*/
+
+   document.getElementById("t34").value = T[34]
+   document.getElementById("length").value = num
+   document.getElementById("rounded").value = rounded   
+   document.getElementById("threads").value = threads
+   document.getElementById("suggestion").value = `${maybe} threads`
+   document.getElementById("suggestion2").value = `${final} threads`      
 }
 
 /*------ End flops.c code, say good night Jan! (Sep 1992) ------*/
