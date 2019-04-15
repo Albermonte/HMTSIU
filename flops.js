@@ -609,7 +609,7 @@ function flops_main() {
    document.getElementById("t34").value = T[34]
    document.getElementById("length").value = len
    document.getElementById("rounded").value = rounded   
-   document.getElementById("threads").value = `${maybe} threads`
+   document.getElementById("threads").value = `${threads} threads`
    document.getElementById("suggestion").value = maybe
    document.getElementById("suggestion2").value = final     
 }
