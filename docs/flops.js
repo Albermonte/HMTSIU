@@ -596,8 +596,9 @@ function flops_main() {
    
 /*------ Start Albermonte algo ------*/
 
-   let num = (Math.round(T[34])).toString().length // Number of digits
-   let rounded = (Math.round(T[34]/10**(num - (num - 3)))) || 2 // Hard to explain xD, just debug it
+   let len = (Math.round(T[34])).toString().length // Number of digits
+   let rounded = (Math.round(T[34]/10**(len - (len - 3)))) // Hard to explain xD, just debug it
+   rounded = rounded > 2 ? rounded : 2
    let threads = window.navigator.hardwareConcurrency || 4 // 4 it's pretty common
    let maybe = threads - (Math.ceil(threads / rounded)) || 1 // Again, it's hard
    let final = Math.min(threads - 2, maybe) // Let always 2 free threads at least
@@ -606,11 +607,11 @@ function flops_main() {
 /*------ End Albermonte algo, hope you slept well mimosa <3 (Apr 2019) ------*/
 
    document.getElementById("t34").value = T[34]
-   document.getElementById("length").value = num
+   document.getElementById("length").value = len
    document.getElementById("rounded").value = rounded   
-   document.getElementById("threads").value = threads
-   document.getElementById("suggestion").value = `${maybe} threads`
-   document.getElementById("suggestion2").value = `${final} threads`      
+   document.getElementById("threads").value = `${threads} threads`
+   document.getElementById("suggestion").value = maybe
+   document.getElementById("suggestion2").value = final     
 }
 
 /*------ End flops.c code, say good night Jan! (Sep 1992) ------*/

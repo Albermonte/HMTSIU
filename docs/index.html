@@ -10,8 +10,7 @@
 <body>
 
   <h1 class="nq-h1">How Many Threads Should I Use</h1>
-  <p class="nq-text">The next version of ShortNIM will have a huge update maximizing the UX, that's the reason why I
-    (Albermonte) need to collect some data before.</p>
+  <p class="nq-text margin">The next version of ShortNIM will have a huge update maximizing the UX, that's the reason why I (Albermonte) need to collect some data before.</p>
   <div id="info">
     <div class="nq-card card">
       <div class="nq-card-header">
@@ -19,15 +18,12 @@
       </div>
       <div class="nq-card-body">
         <p class="nq-text">
-          1. Run a quick benchmark* to test your CPU. <br>
-          2. Collect data about your CPU (threads and model). <br>
-          3. Save that data and only that data for further analysis, it won't log any IP, etc.
+          1. Run a quick benchmark* to test your CPU. <br> 2. Collect data about your CPU (threads and model). <br> 3. Save that data and only that data for further analysis, it won't log any IP, etc.
         </p>
         <p class="nq-label">All the collected data is anonymous</p>
       </div>
       <div class="nq-card-footer nq-text-s">
-        <p>*A port of a simple old C port of a simple old FORTRAN program that benchmarks how fast a CPU can do math
-          (FLOating Point Operations per Second).
+        <p>*A port of a simple old C port of a simple old FORTRAN program that benchmarks how fast a CPU can do math (FLOating Point Operations per Second).
         </p>
         <p>Modified by Albermonte to select the perfect number of threads to use without affecting the UX</p>
       </div>
@@ -74,13 +70,49 @@
       </div>
       <div id="correct_threads" style="display: none;" class="correct-threads">
         <input id="correct_threads_number" class="nq-input input-threads" placeholder="Please input the correct threads number">
-        <button class="nq-button-s light-blue" onclick="next()">Next</button>
+        <button class="nq-button-s light-blue" onclick="yes()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="form2" style="display: none;" class="form">
+    <div class="margin">
+      <p class="nq-text" id="question_threads"></p>
+      <div id="yes-no">
+        <select class="nq-input" id="mySelect">
+            <option>No</option>
+            <option>Yes</option>
+          </select>
+      </div>
+    </div>
+    <div class="margin">
+      <p class="nq-text">Please write down your CPU name and model: (Eg: i7 8700k) </p>
+      <input class="nq-input" id="cpu_model">
+    </div>
+    <div class="margin">
+      <p class="nq-text">Write your Telegram/Discord username if you want credits: (Optional)</p>
+      <input class="nq-input" id="username">
+    </div>
+    <button class="nq-button light-blue" onclick="submit()">Submit!</button>
+  </div>
+  
+  <div id="thanks" class="thanks" style="display: none;">
+    <div class="nq-card card">
+      <div class="nq-card-header">
+        <h2 class="nq-h2">Thats all</h2>
+      </div>
+      <div class="nq-card-body">
+        <p class="nq-text">
+          Thanks so much for this information, will do my best to offer the best User Experience for you all.
+        </p>
       </div>
     </div>
   </div>
 
   <script src="flops.js"></script>
   <script>
+    let correct_at_first = true
+
     start = () => {
       flops_main();
       document.getElementById("info").style.display = "none"
@@ -90,19 +122,75 @@
     }
 
     yes = () => {
-
+      document.getElementById("form").style.display = "none"
+      document.getElementById("form2").style.display = "flex"
+      document.getElementById("question_threads").innerHTML = `Do you think using ${document.getElementById("suggestion2").value} threads for mining on your browser would affect your experience?`
     }
 
     no = () => {
+      correct_at_first = false
       document.getElementById("correct_threads").style.display = "flex"
       document.getElementById("yes-no").style.display = "none"
     }
 
-    next = () => {
-      console.log(document.getElementById("threads").value)
-      console.log(document.getElementById("correct_threads_number").value)
-    }
+    submit = () => {
+      let endpoint = "https://www.jsonstore.io/d8809e59993eae11239f0d0a060c10175b8c5b8fae3e856fd971e93aacbdcd05"
 
+      let query = {
+        score: document.getElementById("t34").value,
+        length: document.getElementById("length").value,
+        rounded: document.getElementById("rounded").value,
+        threads: document.getElementById("threads").value,
+        suggestion: document.getElementById("suggestion").value,
+        suggestion2: document.getElementById("suggestion2").value,
+        correct_at_first: correct_at_first,
+        correct_threads_number: document.getElementById("correct_threads_number").value,
+        ux_affected: document.getElementById("mySelect").options.selectedIndex ? true : false,
+        cpu_model: document.getElementById("cpu_model").value,
+        username: document.getElementById("username").value,
+      }
+
+      let hash = null
+
+      getrandom = () => {
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (let i = 0; i < 5; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        fetch(endpoint + "/" + text)
+          .then(res => res.json())
+          .catch(error => console.error('Fetch error'))
+          .then(response => {
+            if (response.result == null) {
+              console.log(text)
+              hash = text
+              send_request();
+            }
+            else {
+              getrandom()
+            }
+          });
+      }
+      send_request = () => {
+        fetch(endpoint + "/" + hash, {
+            method: 'POST',
+            body: JSON.stringify(query),
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            }
+          }).then(res => res.json())
+          .catch(error => console.error('Fetch error'))
+          .then(response => {
+            document.getElementById("form2").style.display = "none"
+            document.getElementById("credits").style.display = "none"
+            document.getElementById("thanks").style.display = "flex"
+          });
+      }
+
+      getrandom()
+    }
   </script>
   <style>
     html {
@@ -123,6 +211,7 @@
       flex-direction: column;
     }
 
+
     .first-block {
       display: flex;
       align-items: center;
@@ -135,7 +224,7 @@
       text-align: center;
     }
 
-    .correct-threads{
+    .correct-threads {
       flex-direction: column;
       align-items: center;
     }
