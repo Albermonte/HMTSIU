@@ -1,6 +1,6 @@
 {
   "name": "hmtsiu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Check how much threads should be used for browser mining without affecting the user experience",
   "main": "index.js",
   "scripts": {
