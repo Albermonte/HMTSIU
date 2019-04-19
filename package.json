@@ -1,0 +1,25 @@
+{
+  "name": "hmtsiu",
+  "version": "1.0.0",
+  "description": "Check how much threads should be used for browser mining without affecting the user experience",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Albermonte/HMTSIU.git"
+  },
+  "keywords": [
+    "browser",
+    "mining",
+    "threads",
+    "nimiq"
+  ],
+  "author": "Albermonte",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Albermonte/HMTSIU/issues"
+  },
+  "homepage": "https://github.com/Albermonte/HMTSIU#readme"
+}
