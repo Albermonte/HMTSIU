@@ -9,6 +9,6 @@ npm i -s hmtsiu
 ```
 
 Require it:
-```
-let threads = require ("hmtsiu").HMTSIU()
+```js
+const threads = require ("hmtsiu").HMTSIU()
 ```
